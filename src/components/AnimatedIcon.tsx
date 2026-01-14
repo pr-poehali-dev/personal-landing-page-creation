@@ -83,8 +83,10 @@ export default function AnimatedIcon({ type, size = 64 }: AnimatedIconProps) {
         <circle cx="42" cy="20" r="7" fill="url(#grad4)" className="animate-pulse-slow" style={{ animationDelay: '0.2s' }} />
         <path d="M14 44 C14 36 17 30 22 30 C27 30 30 33 32 36 C34 33 37 30 42 30 C47 30 50 36 50 44" 
           stroke="url(#grad4)" strokeWidth="6" strokeLinecap="round" className="animate-draw-arc" />
-        <path d="M28 32 Q32 38 36 32" stroke="url(#grad4)" strokeWidth="4" strokeLinecap="round" 
-          fill="none" className="animate-pulse-slow" style={{ animationDelay: '0.4s' }} />
+        <g className="animate-heartbeat">
+          <path d="M28 32 Q32 38 36 32" stroke="url(#grad4)" strokeWidth="4" strokeLinecap="round" 
+            fill="none" />
+        </g>
       </svg>
     ),
     success: (

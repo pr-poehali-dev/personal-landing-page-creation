@@ -28,7 +28,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="text-xl font-bold text-primary flex items-center gap-2">
             💰 ФинКонсультант
@@ -61,7 +61,7 @@ export default function Index() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden border-t bg-white animate-fade-in">
+          <div className="md:hidden border-t border-border bg-card animate-fade-in">
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               <button onClick={() => scrollToSection('services')} className="text-left text-foreground hover:text-accent transition-colors">
                 Услуги
@@ -215,11 +215,29 @@ export default function Index() {
                 time: "1 день"
               }
             ].map((caseItem, index) => (
-              <Card key={index} className="border-l-4 border-l-success hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
+              <Card 
+                key={index} 
+                className="border-l-4 border-l-success group cursor-pointer perspective-1000"
+                style={{ transformStyle: 'preserve-3d' }}
+                onMouseMove={(e) => {
+                  const card = e.currentTarget;
+                  const rect = card.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const centerX = rect.width / 2;
+                  const centerY = rect.height / 2;
+                  const rotateX = (y - centerY) / 10;
+                  const rotateY = (centerX - x) / 10;
+                  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                }}
+              >
+                <CardContent className="pt-6 transition-all duration-300">
                   <div className="flex items-center gap-3 mb-4">
                     <AnimatedIcon type="success" size={48} />
-                    <h3 className="text-xl font-semibold text-primary">{caseItem.title}</h3>
+                    <h3 className="text-xl font-semibold text-primary group-hover:text-accent transition-colors">{caseItem.title}</h3>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
@@ -324,7 +342,7 @@ export default function Index() {
                 a: "Это не приговор. В 80% случаев после моего вмешательства вопрос решается положительно."
               }
             ].map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="bg-white border rounded-lg px-6">
+              <AccordionItem key={index} value={`item-${index}`} className="bg-card border border-border rounded-lg px-6">
                 <AccordionTrigger className="text-left font-semibold text-primary hover:text-accent">
                   {faq.q}
                 </AccordionTrigger>

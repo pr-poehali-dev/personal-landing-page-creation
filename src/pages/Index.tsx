@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
+import AnimatedIcon from '@/components/AnimatedIcon';
 
 export default function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -103,12 +104,12 @@ export default function Index() {
               "Не можете вывести деньги из инвестиций",
               "Банк пишет только формальные отписки"
             ].map((problem, index) => (
-              <Card key={index} className="border-l-4 border-l-destructive">
+              <Card key={index} className="border-l-4 border-l-destructive hover:shadow-lg transition-shadow">
                 <CardContent className="pt-6">
-                  <p className="flex items-start gap-3 text-lg">
-                    <span className="text-2xl">❌</span>
-                    <span>{problem}</span>
-                  </p>
+                  <div className="flex items-start gap-4">
+                    <AnimatedIcon type="problem" size={48} />
+                    <p className="text-lg flex-1">{problem}</p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -124,30 +125,32 @@ export default function Index() {
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
-                icon: "🔓",
+                icon: "unlock" as const,
                 title: "Разблокировка счётов",
                 desc: "Анализирую выписку, готовлю документы, разморожу за 5-7 дней"
               },
               {
-                icon: "📋",
+                icon: "document" as const,
                 title: "Налоги & Декларации",
                 desc: "Считаю вычеты, готовлю декларацию, вернёт 50-300 тыс. ₽"
               },
               {
-                icon: "👤",
+                icon: "user" as const,
                 title: "Независимый консультант",
                 desc: "Свой человек на долгие годы для всех финансовых вопросов"
               },
               {
-                icon: "🛡️",
+                icon: "shield" as const,
                 title: "Защита от мошенников",
                 desc: "Разбираю ситуацию, объясняю права и возможные действия"
               }
             ].map((service, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow border-t-4 border-t-accent">
+              <Card key={index} className="hover:shadow-lg transition-all hover:scale-105 border-t-4 border-t-accent group">
                 <CardContent className="pt-8 pb-8">
-                  <div className="text-5xl mb-4">{service.icon}</div>
-                  <h3 className="text-2xl font-semibold mb-3 text-primary">{service.title}</h3>
+                  <div className="mb-4">
+                    <AnimatedIcon type={service.icon} size={72} />
+                  </div>
+                  <h3 className="text-2xl font-semibold mb-3 text-primary group-hover:text-accent transition-colors">{service.title}</h3>
                   <p className="text-muted-foreground text-lg">{service.desc}</p>
                 </CardContent>
               </Card>
@@ -182,9 +185,12 @@ export default function Index() {
                 time: "1 день"
               }
             ].map((caseItem, index) => (
-              <Card key={index} className="border-l-4 border-l-success">
+              <Card key={index} className="border-l-4 border-l-success hover:shadow-lg transition-shadow">
                 <CardContent className="pt-6">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">{caseItem.title}</h3>
+                  <div className="flex items-center gap-3 mb-4">
+                    <AnimatedIcon type="success" size={48} />
+                    <h3 className="text-xl font-semibold text-primary">{caseItem.title}</h3>
+                  </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Проблема:</span>

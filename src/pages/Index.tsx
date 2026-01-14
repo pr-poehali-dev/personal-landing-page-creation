@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -7,6 +7,16 @@ import AnimatedIcon from '@/components/AnimatedIcon';
 
 export default function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -73,8 +83,26 @@ export default function Index() {
         )}
       </header>
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div 
+            className="absolute top-20 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl"
+            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+          />
+          <div 
+            className="absolute top-40 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+            style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+          />
+          <div 
+            className="absolute bottom-10 left-1/2 w-80 h-80 bg-success/10 rounded-full blur-3xl"
+            style={{ transform: `translate(-50%, ${scrollY * 0.2}px)` }}
+          />
+        </div>
+
+        <div 
+          className="container mx-auto text-center max-w-4xl relative"
+          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+        >
           <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 animate-fade-in">
             Ваш личный финансовый защитник
           </h1>
@@ -90,6 +118,8 @@ export default function Index() {
             </Button>
           </div>
         </div>
+
+        <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       </section>
 
       <section className="py-16 px-4 bg-muted/30">

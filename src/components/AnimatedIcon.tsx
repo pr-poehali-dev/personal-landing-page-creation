@@ -75,13 +75,16 @@ export default function AnimatedIcon({ type, size = 64 }: AnimatedIconProps) {
       <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className={`${isVisible ? 'animate-float' : ''}`}>
         <defs>
           <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#9B59B6', stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: '#8E44AD', stopOpacity: 1 }} />
+            <stop offset="0%" style={{ stopColor: '#E67E22', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#F39C12', stopOpacity: 1 }} />
           </linearGradient>
         </defs>
-        <circle cx="32" cy="24" r="10" fill="url(#grad4)" className="animate-pulse-slow" />
-        <path d="M16 52 C16 42 23 36 32 36 C41 36 48 42 48 52" stroke="url(#grad4)" 
-          strokeWidth="8" strokeLinecap="round" className="animate-draw-arc" />
+        <circle cx="22" cy="20" r="7" fill="url(#grad4)" className="animate-pulse-slow" />
+        <circle cx="42" cy="20" r="7" fill="url(#grad4)" className="animate-pulse-slow" style={{ animationDelay: '0.2s' }} />
+        <path d="M14 44 C14 36 17 30 22 30 C27 30 30 33 32 36 C34 33 37 30 42 30 C47 30 50 36 50 44" 
+          stroke="url(#grad4)" strokeWidth="6" strokeLinecap="round" className="animate-draw-arc" />
+        <path d="M28 32 Q32 38 36 32" stroke="url(#grad4)" strokeWidth="4" strokeLinecap="round" 
+          fill="none" className="animate-pulse-slow" style={{ animationDelay: '0.4s' }} />
       </svg>
     ),
     success: (

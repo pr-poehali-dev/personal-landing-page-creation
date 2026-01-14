@@ -1,14 +1,344 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import Icon from '@/components/ui/icon';
 
-const Index = () => {
+export default function Index() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="text-xl font-bold text-primary flex items-center gap-2">
+            💰 ФинКонсультант
+          </div>
+          
+          <nav className="hidden md:flex items-center gap-8">
+            <button onClick={() => scrollToSection('services')} className="text-foreground hover:text-accent transition-colors">
+              Услуги
+            </button>
+            <button onClick={() => scrollToSection('cases')} className="text-foreground hover:text-accent transition-colors">
+              Кейсы
+            </button>
+            <button onClick={() => scrollToSection('reviews')} className="text-foreground hover:text-accent transition-colors">
+              Отзывы
+            </button>
+            <button onClick={() => scrollToSection('faq')} className="text-foreground hover:text-accent transition-colors">
+              Вопросы
+            </button>
+            <Button onClick={() => scrollToSection('contact')} className="bg-accent hover:bg-accent/90">
+              Консультация
+            </Button>
+          </nav>
+
+          <button
+            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Icon name={mobileMenuOpen ? "X" : "Menu"} size={24} />
+          </button>
+        </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t bg-white animate-fade-in">
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+              <button onClick={() => scrollToSection('services')} className="text-left text-foreground hover:text-accent transition-colors">
+                Услуги
+              </button>
+              <button onClick={() => scrollToSection('cases')} className="text-left text-foreground hover:text-accent transition-colors">
+                Кейсы
+              </button>
+              <button onClick={() => scrollToSection('reviews')} className="text-left text-foreground hover:text-accent transition-colors">
+                Отзывы
+              </button>
+              <button onClick={() => scrollToSection('faq')} className="text-left text-foreground hover:text-accent transition-colors">
+                Вопросы
+              </button>
+              <Button onClick={() => scrollToSection('contact')} className="bg-accent hover:bg-accent/90 w-full">
+                Консультация
+              </Button>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <section className="pt-32 pb-20 px-4">
+        <div className="container mx-auto text-center max-w-4xl">
+          <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 animate-fade-in">
+            Ваш личный финансовый защитник
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 animate-slide-up">
+            10 лет в банковской системе — теперь на вашей стороне
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-lg px-8" onClick={() => scrollToSection('contact')}>
+              Получить диагностику
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => scrollToSection('services')}>
+              Узнать больше
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
+            Вас заблокировали счёт?
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              "Не можете получить зарплату",
+              "Не получается оплатить счета и кредиты",
+              "Не можете вывести деньги из инвестиций",
+              "Банк пишет только формальные отписки"
+            ].map((problem, index) => (
+              <Card key={index} className="border-l-4 border-l-destructive">
+                <CardContent className="pt-6">
+                  <p className="flex items-start gap-3 text-lg">
+                    <span className="text-2xl">❌</span>
+                    <span>{problem}</span>
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-16">
+            Я помогаю в четырёх сценариях
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              {
+                icon: "🔓",
+                title: "Разблокировка счётов",
+                desc: "Анализирую выписку, готовлю документы, разморожу за 5-7 дней"
+              },
+              {
+                icon: "📋",
+                title: "Налоги & Декларации",
+                desc: "Считаю вычеты, готовлю декларацию, вернёт 50-300 тыс. ₽"
+              },
+              {
+                icon: "👤",
+                title: "Независимый консультант",
+                desc: "Свой человек на долгие годы для всех финансовых вопросов"
+              },
+              {
+                icon: "🛡️",
+                title: "Защита от мошенников",
+                desc: "Разбираю ситуацию, объясняю права и возможные действия"
+              }
+            ].map((service, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow border-t-4 border-t-accent">
+                <CardContent className="pt-8 pb-8">
+                  <div className="text-5xl mb-4">{service.icon}</div>
+                  <h3 className="text-2xl font-semibold mb-3 text-primary">{service.title}</h3>
+                  <p className="text-muted-foreground text-lg">{service.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="cases" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-16">
+            Реальные кейсы
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Разблокировал счёт за 5 дней",
+                problem: "Блокировка 2.5 млн ₽",
+                result: "Полная разблокировка",
+                time: "5 дней"
+              },
+              {
+                title: "Вернул налоговый вычет",
+                problem: "Отказ от налоговой",
+                result: "Вернули 260 тыс. ₽",
+                time: "3 недели"
+              },
+              {
+                title: "Защитил от мошенников",
+                problem: "Попытка кражи 800 тыс. ₽",
+                result: "Деньги сохранены",
+                time: "1 день"
+              }
+            ].map((caseItem, index) => (
+              <Card key={index} className="border-l-4 border-l-success">
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-semibold mb-4 text-primary">{caseItem.title}</h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Проблема:</span>
+                      <span className="font-medium">{caseItem.problem}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Результат:</span>
+                      <span className="font-medium text-success">{caseItem.result}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Срок:</span>
+                      <span className="font-medium">{caseItem.time}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-16">
+            Отзывы клиентов
+          </h2>
+          <div className="space-y-6">
+            {[
+              {
+                name: "Александр К.",
+                role: "Предприниматель",
+                text: "За 6 дней разблокировал счёт на 1.8 млн. Банк молчал 2 недели, а тут всё решилось быстро. Профессионал своего дела!",
+                rating: 5
+              },
+              {
+                name: "Мария С.",
+                role: "Фрилансер",
+                text: "Помог вернуть налоговый вычет 180 тыс. рублей. Всё объяснил простым языком, сделал всё сам. Очень рекомендую!",
+                rating: 5
+              },
+              {
+                name: "Дмитрий П.",
+                role: "IT-специалист",
+                text: "Консультирует по всем финансовым вопросам. Теперь обращаюсь только к нему — надёжно и по делу.",
+                rating: 5
+              }
+            ].map((review, index) => (
+              <Card key={index}>
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-2xl">
+                      {review.name.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h4 className="font-semibold text-primary">{review.name}</h4>
+                          <p className="text-sm text-muted-foreground">{review.role}</p>
+                        </div>
+                        <div className="flex gap-1">
+                          {Array.from({ length: review.rating }).map((_, i) => (
+                            <span key={i} className="text-yellow-500">★</span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground">{review.text}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-3xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-16">
+            Частые вопросы
+          </h2>
+          <Accordion type="single" collapsible className="space-y-4">
+            {[
+              {
+                q: "Как быстро можно разблокировать счёт?",
+                a: "В большинстве случаев 5-7 рабочих дней. Срок зависит от причины блокировки и банка."
+              },
+              {
+                q: "Сколько стоят ваши услуги?",
+                a: "Первая консультация бесплатно. Дальнейшая стоимость зависит от сложности задачи — обсуждаем индивидуально."
+              },
+              {
+                q: "Какие документы нужны для работы?",
+                a: "Обычно выписка из банка, паспорт и документы по операциям. Точный список скажу после анализа ситуации."
+              },
+              {
+                q: "Вы работаете со всеми банками?",
+                a: "Да, работаю со всеми крупными банками России. 10 лет опыта в банковской системе помогают решать вопросы эффективно."
+              },
+              {
+                q: "Что делать, если банк уже отказал?",
+                a: "Это не приговор. В 80% случаев после моего вмешательства вопрос решается положительно."
+              }
+            ].map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`} className="bg-white border rounded-lg px-6">
+                <AccordionTrigger className="text-left font-semibold text-primary hover:text-accent">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      <section id="contact" className="py-20 px-4">
+        <div className="container mx-auto max-w-2xl">
+          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-12 text-white text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Получите бесплатную консультацию
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Разберу вашу ситуацию и предложу решение за 30 минут
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white text-lg px-8">
+                <Icon name="Phone" size={20} className="mr-2" />
+                Позвонить
+              </Button>
+              <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-white/90 text-lg px-8">
+                <Icon name="MessageCircle" size={20} className="mr-2" />
+                Написать в Telegram
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-primary text-white py-12 px-4">
+        <div className="container mx-auto text-center">
+          <div className="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+            💰 ФинКонсультант
+          </div>
+          <p className="text-white/80 mb-6">
+            Профессиональное решение финансовых вопросов
+          </p>
+          <div className="flex justify-center gap-6 text-sm text-white/60">
+            <span>ИП Иванов А.А.</span>
+            <span>•</span>
+            <span>ИНН 123456789012</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
-};
-
-export default Index;
+}

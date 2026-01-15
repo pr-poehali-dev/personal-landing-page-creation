@@ -250,7 +250,7 @@ export default function ContentSections() {
               <Button 
                 size="lg" 
                 className="bg-accent hover:bg-accent/90 text-white text-lg px-8"
-                onClick={() => window.location.href = 'tel:+79000000000'}
+                onClick={() => window.location.href = 'tel:+79502929607'}
               >
                 <Icon name="Phone" size={20} className="mr-2" />
                 Позвонить
@@ -261,7 +261,7 @@ export default function ContentSections() {
               </Button>
             </div>
             <p className="text-sm text-white/70 mt-4">
-              +7 (900) 000-00-00
+              +7 (950) 292-96-07
             </p>
           </div>
         </div>

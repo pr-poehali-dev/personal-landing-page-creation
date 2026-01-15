@@ -247,7 +247,11 @@ export default function ContentSections() {
               Разберу вашу ситуацию и предложу решение за 30 минут
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white text-lg px-8">
+              <Button 
+                size="lg" 
+                className="bg-accent hover:bg-accent/90 text-white text-lg px-8"
+                onClick={() => window.location.href = 'tel:+79000000000'}
+              >
                 <Icon name="Phone" size={20} className="mr-2" />
                 Позвонить
               </Button>
@@ -256,6 +260,9 @@ export default function ContentSections() {
                 Написать в Telegram
               </Button>
             </div>
+            <p className="text-sm text-white/70 mt-4">
+              +7 (900) 000-00-00
+            </p>
           </div>
         </div>
       </section>

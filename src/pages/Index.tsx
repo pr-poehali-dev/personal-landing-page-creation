@@ -44,6 +44,9 @@ export default function Index() {
             <button onClick={() => scrollToSection('reviews')} className="text-foreground hover:text-accent transition-colors">
               Отзывы
             </button>
+            <button onClick={() => scrollToSection('team')} className="text-foreground hover:text-accent transition-colors">
+              Команда
+            </button>
             <button onClick={() => scrollToSection('faq')} className="text-foreground hover:text-accent transition-colors">
               Вопросы
             </button>
@@ -71,6 +74,9 @@ export default function Index() {
               </button>
               <button onClick={() => scrollToSection('reviews')} className="text-left text-foreground hover:text-accent transition-colors">
                 Отзывы
+              </button>
+              <button onClick={() => scrollToSection('team')} className="text-left text-foreground hover:text-accent transition-colors">
+                Команда
               </button>
               <button onClick={() => scrollToSection('faq')} className="text-left text-foreground hover:text-accent transition-colors">
                 Вопросы
@@ -307,6 +313,40 @@ export default function Index() {
                       <p className="text-muted-foreground">{review.text}</p>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="team" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-16">
+            Команда
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Юлия Левицкая",
+                position: "Учредитель"
+              },
+              {
+                name: "Имя Фамилия",
+                position: "Бухгалтер"
+              },
+              {
+                name: "Имя Фамилия",
+                position: "Ведущий юрист"
+              }
+            ].map((member, index) => (
+              <Card key={index} className="hover:shadow-xl transition-all hover:scale-105 border-2 border-border">
+                <CardContent className="pt-12 pb-8 text-center">
+                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                    <Icon name="User" size={64} className="text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2 text-primary">{member.name}</h3>
+                  <p className="text-muted-foreground text-lg">{member.position}</p>
                 </CardContent>
               </Card>
             ))}

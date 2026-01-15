@@ -1,0 +1,20 @@
+{
+  "tests": [
+    {
+      "name": "Send notification to Telegram",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "fullName": "Иван Иванов",
+        "email": "test@example.com",
+        "tariff": "basic"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

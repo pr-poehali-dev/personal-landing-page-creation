@@ -20,8 +20,9 @@ export default function HeroSection({ scrollY, scrollToSection }: HeroSectionPro
     consent: false
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     const errors: Record<string, string> = {};
     
     if (!formData.fullName.trim()) errors.fullName = 'Введите ФИО';
@@ -34,10 +35,36 @@ export default function HeroSection({ scrollY, scrollToSection }: HeroSectionPro
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      console.log('Заявка отправлена:', formData);
-      setFormOpen(false);
-      setFormData({ fullName: '', email: '', tariff: '', consent: false });
-      setFormErrors({});
+      setIsSubmitting(true);
+      
+      try {
+        const response = await fetch('https://functions.poehali.dev/b10be5ad-4006-4dd7-87a8-3c332e2b436e', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fullName: formData.fullName,
+            email: formData.email,
+            tariff: formData.tariff
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setFormOpen(false);
+          setFormData({ fullName: '', email: '', tariff: '', consent: false });
+          setFormErrors({});
+          alert('Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+        } else {
+          setFormErrors({ submit: result.error || 'Ошибка отправки заявки' });
+        }
+      } catch (error) {
+        setFormErrors({ submit: 'Не удалось отправить заявку. Попробуйте позже.' });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -160,11 +187,16 @@ export default function HeroSection({ scrollY, scrollToSection }: HeroSectionPro
                   <p className="text-sm text-red-500">{formErrors.consent}</p>
                 )}
 
+                {formErrors.submit && (
+                  <p className="text-sm text-red-500 text-center">{formErrors.submit}</p>
+                )}
+
                 <Button 
                   onClick={handleSubmitForm}
+                  disabled={isSubmitting}
                   className="w-full bg-accent hover:bg-accent/90"
                 >
-                  Отправить заявку
+                  {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
                 </Button>
               </div>
             </DialogContent>

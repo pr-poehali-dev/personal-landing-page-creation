@@ -1,0 +1,17 @@
+{
+  "tests": [
+    {
+      "name": "Start command",
+      "method": "POST",
+      "body": {
+        "message": {
+          "chat": {"id": 123456, "first_name": "Тест"},
+          "text": "/start"
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

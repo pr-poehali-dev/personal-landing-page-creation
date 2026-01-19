@@ -255,7 +255,12 @@ export default function ContentSections() {
                 <Icon name="Phone" size={20} className="mr-2" />
                 Позвонить
               </Button>
-              <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-white/90 text-lg px-8">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="bg-white text-primary hover:bg-white/90 text-lg px-8"
+                onClick={() => window.open('https://t.me/LevitskayaJul_bot', '_blank')}
+              >
                 <Icon name="MessageCircle" size={20} className="mr-2" />
                 Написать в Telegram
               </Button>

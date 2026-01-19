@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "Test /start command",
+      "method": "POST",
+      "body": {
+        "message": {
+          "chat": {"id": 123456789},
+          "text": "/start"
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "ok": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test user message",
+      "method": "POST",
+      "body": {
+        "message": {
+          "chat": {"id": 123456789},
+          "text": "Сколько стоит разблокировка счета?"
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "ok": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

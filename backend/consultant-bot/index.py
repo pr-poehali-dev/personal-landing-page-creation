@@ -1,6 +1,7 @@
 import json
 import os
 from openai import OpenAI
+from db import get_or_create_client, save_conversation
 
 def handler(event: dict, context) -> dict:
     '''Telegram бот-консультант по финансовым услугам'''
@@ -40,11 +41,18 @@ def handler(event: dict, context) -> dict:
     message = body['message']
     chat_id = message['chat']['id']
     user_name = message['chat'].get('first_name', 'Гость')
+    last_name = message['chat'].get('last_name')
+    username = message['chat'].get('username')
     
-    if message.get('text', '').startswith('/start'):
-        response_text = f"Здравствуйте, {user_name}!\n\nЯ финансовый консультант с 10-летним опытом в банковской системе.\n\nПомогу вам с:\n✓ Разблокировкой счетов (5-7 дней, от 15 000₽)\n✓ Налоговыми вычетами (от 5 000₽)\n✓ Защитой от мошенников\n✓ Консультациями по 115-ФЗ\n\nЗадавайте вопросы, я отвечу!\n\n📞 Связаться: +7 (950) 292-96-07"
-        
-        send_message(chat_id, response_text)
+    # Сохраняем или обновляем клиента в БД
+    try:
+        client_id = get_or_create_client(chat_id, user_name, last_name, username)
+    except:
+        client_id = None
+    
+    user_message = message.get('text', '')
+    
+    if not user_message:
         return {
             'statusCode': 200,
             'headers': {'Content-Type': 'application/json'},
@@ -52,9 +60,25 @@ def handler(event: dict, context) -> dict:
             'isBase64Encoded': False
         }
     
-    user_message = message.get('text', '')
+    # Сохраняем сообщение пользователя
+    if client_id:
+        try:
+            save_conversation(client_id, user_message, 'user')
+        except:
+            pass
     
-    if not user_message:
+    if user_message.startswith('/start'):
+        response_text = f"Здравствуйте, {user_name}!\n\nЯ финансовый консультант с 10-летним опытом в банковской системе.\n\nПомогу вам с:\n✓ Разблокировкой счетов (5-7 дней, от 15 000₽)\n✓ Налоговыми вычетами (от 5 000₽)\n✓ Защитой от мошенников\n✓ Консультациями по 115-ФЗ\n\nЗадавайте вопросы, я отвечу!\n\n📞 Связаться: +7 (950) 292-96-07"
+        
+        send_message(chat_id, response_text)
+        
+        # Сохраняем ответ бота
+        if client_id:
+            try:
+                save_conversation(client_id, response_text, 'bot')
+            except:
+                pass
+        
         return {
             'statusCode': 200,
             'headers': {'Content-Type': 'application/json'},
@@ -112,6 +136,13 @@ def handler(event: dict, context) -> dict:
         
         ai_response = completion.choices[0].message.content
         send_message(chat_id, ai_response)
+        
+        # Сохраняем ответ бота
+        if client_id:
+            try:
+                save_conversation(client_id, ai_response, 'bot')
+            except:
+                pass
         
         return {
             'statusCode': 200,
